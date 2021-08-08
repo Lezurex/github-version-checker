@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'com.lezurex.github-version-checker'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.voxcrafter.dev/repository/maven-releases/"
+    }
+}
+
+dependencies {
+    implementation 'com.lezurex:github-version-checker:1.0.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

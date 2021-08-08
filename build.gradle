@@ -1,12 +1,18 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 group 'com.lezurex'
-version '1.0'
+version '1.0.0'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 dependencies {
@@ -24,4 +30,50 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'github-version-checker'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'Github Version Checker'
+                description = 'A java library for checking for new releases on GitHub'
+                url = 'https://github.com/Lezurex/github-version-checker'
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.txt"
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "voxcrafter-repo"
+            def releasesRepoUrl = 'https://repo.voxcrafter.dev/repository/maven-releases/'
+            def snapshotsRepoUrl = 'https://repo.voxcrafter.dev/repository/maven-snapshots/'
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = voxrepoUser
+                password = voxrepoPassword
+            }
+        }
+    }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
