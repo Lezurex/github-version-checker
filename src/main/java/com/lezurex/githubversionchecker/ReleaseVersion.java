@@ -32,7 +32,7 @@ public class ReleaseVersion implements Comparable<ReleaseVersion>, Serializable 
     }
 
     public ReleaseVersion(String versionString) {
-
+        parseVersionString(versionString);
     }
 
     private void parseVersionString(String s) {
@@ -40,10 +40,10 @@ public class ReleaseVersion implements Comparable<ReleaseVersion>, Serializable 
         final Matcher matcher = pattern.matcher(s);
 
         if (matcher.find()) {
-            for (int i = 1; i < matcher.groupCount(); i++) {
-                if (i == 1) this.major = Integer.parseInt(matcher.group());
-                if (i == 2) this.minor = Integer.parseInt(matcher.group());
-                if (i == 3) this.patch = Integer.parseInt(matcher.group());
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                if (i == 1) this.major = Integer.parseInt(matcher.group(i));
+                if (i == 2) this.minor = Integer.parseInt(matcher.group(i));
+                if (i == 3) this.patch = Integer.parseInt(matcher.group(i));
             }
         } else throw new InvalidVersionString(s);
     }

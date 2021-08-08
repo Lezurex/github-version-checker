@@ -24,4 +24,14 @@ class GithubVersionCheckerTest {
         assertThrows(RepoNotFoundException.class, () -> new GithubVersionChecker("Lezurex", "doesnotexist", releaseVersion), "Repo validation di not fail!");
     }
 
+    @Test
+    @DisplayName("Check with outdated version")
+    void checkOutdated() {
+        ReleaseVersion releaseVersion = new ReleaseVersion("0.0.1");
+        GithubVersionChecker githubVersionChecker = new GithubVersionChecker("VoxCrafterLP", "JumpRace", releaseVersion);
+        CheckResult checkResult = githubVersionChecker.check();
+        assertEquals(VersionState.OUTDATED, checkResult.getVersionState(), "Version state is not outdated!");
+        assertTrue(checkResult.getPageLink().endsWith(checkResult.getVersion().toString()), "End of release URL does not match version!");
+    }
+
 }
