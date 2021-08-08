@@ -36,7 +36,7 @@ public class ReleaseVersion implements Comparable<ReleaseVersion>, Serializable 
     }
 
     private void parseVersionString(String s) {
-        final Pattern pattern = Pattern.compile("[vV]?(\\d+)\\.(\\d+)\\.(\\d+)");
+        final Pattern pattern = Pattern.compile("[vV]?(\\d+)\\.?(\\d+)?\\.?(\\d+)?");
         final Matcher matcher = pattern.matcher(s);
 
         if (matcher.find()) {
