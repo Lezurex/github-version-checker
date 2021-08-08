@@ -121,7 +121,7 @@ class ReleaseVersionTest {
     }
 
     @Test
-    @DisplayName("Minor smaller")
+    @DisplayName("Patch smaller")
     void patchSmaller() {
         ReleaseVersion v1;
         ReleaseVersion v2;
@@ -132,7 +132,7 @@ class ReleaseVersionTest {
     }
 
     @Test
-    @DisplayName("Minor equals")
+    @DisplayName("Patch equals")
     void patchEquals() {
         ReleaseVersion v1;
         ReleaseVersion v2;
