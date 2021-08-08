@@ -15,6 +15,6 @@ public class RepoNotFoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return String.format("Repo %s/%s couldn't be found on GitHub! Does it exist and", username, repo);
+        return String.format("Repo \"%s/%s\" couldn't be found on GitHub! Does it exist and is it public?", username, repo);
     }
 }
