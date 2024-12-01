@@ -11,8 +11,16 @@ repositories {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
     withJavadocJar()
     withSourcesJar()
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 dependencies {
