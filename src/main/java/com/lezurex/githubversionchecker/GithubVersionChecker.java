@@ -10,6 +10,8 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -33,20 +35,23 @@ public class GithubVersionChecker {
      * @param currentVersion The current version running
      * @param includePreReleases Whether pre releases should be tested (default: false)
      */
-    public GithubVersionChecker(String username, String repo, ReleaseVersion currentVersion, boolean includePreReleases) {
+    public GithubVersionChecker(String username, String repo, ReleaseVersion currentVersion,
+            boolean includePreReleases) {
         this.username = username;
         this.repo = repo;
         this.currentVersion = currentVersion;
         this.includePreReleases = includePreReleases;
 
         try {
-            URL url = new URL(String.format("https://api.github.com/repos/%s/%s", this.username, this.repo));
+            URL url = new URI(
+                    String.format("https://api.github.com/repos/%s/%s", this.username, this.repo))
+                            .toURL();
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             if (con.getResponseCode() != HTTP_OK) {
                 throw new RepoNotFoundException(this.username, this.repo);
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
@@ -65,24 +70,27 @@ public class GithubVersionChecker {
         if (this.includePreReleases)
             queryURL = "https://api.github.com/repos/%s/%s/releases?per_page=1";
         try {
-            URL url = new URL(String.format(queryURL, this.username, this.repo));
+            URL url = new URI(String.format(queryURL, this.username, this.repo)).toURL();
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            if (con.getResponseCode() != HTTP_OK) throw new NoReleaseFoundException(this.username, this.repo);
+            if (con.getResponseCode() != HTTP_OK)
+                throw new NoReleaseFoundException(this.username, this.repo);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             JsonObject releaseData;
             if (this.includePreReleases) {
                 JsonArray jsonArray = JsonParser.parseReader(in).getAsJsonArray();
-                if (jsonArray.size() == 0) throw new NoReleaseFoundException(this.username, this.repo);
+                if (jsonArray.size() == 0)
+                    throw new NoReleaseFoundException(this.username, this.repo);
                 releaseData = jsonArray.get(0).getAsJsonObject();
             } else
                 releaseData = JsonParser.parseReader(in).getAsJsonObject();
             in.close();
             con.disconnect();
 
-            ReleaseVersion githubVersion = new ReleaseVersion(releaseData.get("tag_name").getAsString());
+            ReleaseVersion githubVersion =
+                    new ReleaseVersion(releaseData.get("tag_name").getAsString());
             String pageLink = releaseData.get("html_url").getAsString();
             switch (this.currentVersion.compareTo(githubVersion)) {
                 case -1:
@@ -95,7 +103,7 @@ public class GithubVersionChecker {
                     return null;
             }
 
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;

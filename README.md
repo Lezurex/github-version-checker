@@ -8,33 +8,12 @@ A java library for checking for new releases on GitHub
 
 ## Download
 
-Gradle:
-```gradle
-maven {
-    url "https://repo.voxcrafter.dev/repository/maven-releases/"
-}
-
-dependencies {
-    implementation 'com.lezurex.githubversionchecker:1.0.0'
-}
-```
-
-Maven:
-```xml
-<dependency>
-  <groupId>com.lezurex</groupId>
-  <artifactId>github-version-checker</artifactId>
-  <version>1.0.0</version>
-  <scope>compile</scope>
-</dependency>
-
-<repository>
-  <id>voxcrafter-repo</id>
-  <url>https://repo.voxcrafter.dev/repository/maven-releases/</url>
-</repository>
-```
+This library is published as `com.lezurex.github-version-checker` on GitHub
+Packages. Take a look at [this](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
+to see how to configure the GitHub Package Registry for your project.
 
 ## Usage
+
 ```java
 public class Example {
 
