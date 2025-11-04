@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.lezurex.githubversionchecker"},{"l":"com.lezurex.githubversionchecker.exceptions"}];updateSearchResults();
