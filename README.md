@@ -6,9 +6,13 @@
 
 A java library for checking for new releases on GitHub
 
+> [!WARNING]
+> This project is archived and no longer maintained. No bug fixes, dependency updates,
+> or security fixes will be provided. Existing releases remain available as-is.
+
 ## Download
 
-This library is published as `com.lezurex.github-version-checker` on GitHub
+This library is published as `com.lezurex:github-version-checker` on GitHub
 Packages. Take a look at [this](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
 to see how to configure the GitHub Package Registry for your project.
 
